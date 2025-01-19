@@ -1,27 +1,43 @@
-import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react"
-import { WalletModalProvider } from "@solana/wallet-adapter-react-ui"
-import { PhantomWalletAdapter, SolflareWalletAdapter, MathWalletAdapter, TrustWalletAdapter, CoinbaseWalletAdapter } from "@solana/wallet-adapter-wallets"
-import { WalletAccountError, WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+// app/components/WalletContextProvider.tsx
+
+'use client';
+
+import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import {
+    PhantomWalletAdapter,
+    SolflareWalletAdapter,
+    MathWalletAdapter,
+    TrustWalletAdapter,
+    CoinbaseWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
 import { useMemo } from "react";
-const HELIUS_RPC_URL = "https://mainnet.helius-rpc.com/?api-key=351fa5ac-9d20-448b-9181-2258dc95374a";
+
+const HELIUS_RPC_URL = "https://mainnet.helius-rpc.com/?api-key=d1c3593c-f343-4a65-91ac-d0b473e62342";
+
 const WalletContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const network = WalletAdapterNetwork.Mainnet;
-    const endPoint = useMemo(() => HELIUS_RPC_URL, []);
-    const wallets = useMemo(() => [
-        new PhantomWalletAdapter(),
-        new SolflareWalletAdapter(),
-        new MathWalletAdapter(),
-        new TrustWalletAdapter(),
-        new CoinbaseWalletAdapter()
-    ], [])
-    return (<>
-        <ConnectionProvider endpoint={endPoint}>
+    const endpoint = HELIUS_RPC_URL;
+
+    const wallets = useMemo(
+        () => [
+            new PhantomWalletAdapter(),
+            new SolflareWalletAdapter(),
+            new MathWalletAdapter(),
+            new TrustWalletAdapter(),
+            new CoinbaseWalletAdapter(),
+        ],
+        []
+    );
+
+    return (
+        <ConnectionProvider endpoint={endpoint}>
             <WalletProvider wallets={wallets} autoConnect>
                 <WalletModalProvider>
                     {children}
                 </WalletModalProvider>
             </WalletProvider>
         </ConnectionProvider>
-    </>)
-}
-export default WalletContextProvider
+    );
+};
+
+export default WalletContextProvider;
