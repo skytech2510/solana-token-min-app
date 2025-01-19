@@ -5,7 +5,7 @@ import { useAtom } from "jotai";
 import { balanceAtom } from "./store";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useEffect } from "react";
-import { Connection } from "@solana/web3.js";
+import { Connection, LAMPORTS_PER_SOL } from "@solana/web3.js";
 
 export default function Home() {
   const walletModal = useWalletModal();
@@ -16,15 +16,14 @@ export default function Home() {
     if (publicKey) {
       console.log(publicKey?.toString());
       console.log(connected);
-      const connection = new Connection("https://mainnet.helius-rpc.com/?api-key=d1c3593c-f343-4a65-91ac-d0b473e62342", "confirmed");
+      const connection = new Connection("https://devnet.helius-rpc.com/?api-key=d1c3593c-f343-4a65-91ac-d0b473e62342", "confirmed");
       connection.getBalance(publicKey).then(e => {
         console.log(e)
-        setBalance(e);
+        setBalance(e / LAMPORTS_PER_SOL);
       });
     }
   }, [publicKey, connection, connected]);
   const handleDisconnect = async () => {
-
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     connected && await disconnect();
   }
@@ -49,7 +48,6 @@ export default function Home() {
       </div>
       <div
       >
-
       </div>
     </div >
   );

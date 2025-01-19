@@ -10,7 +10,7 @@ import {
 } from "@solana/wallet-adapter-wallets";
 import { useMemo } from "react";
 
-const HELIUS_RPC_URL = "https://mainnet.helius-rpc.com/?api-key=d1c3593c-f343-4a65-91ac-d0b473e62342";
+const HELIUS_RPC_URL = "https://devnet.helius-rpc.com/?api-key=d1c3593c-f343-4a65-91ac-d0b473e62342";
 
 const WalletContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const endpoint = HELIUS_RPC_URL;
