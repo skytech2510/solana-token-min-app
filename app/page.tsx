@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 "use client"
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { useAtom } from "jotai";
@@ -9,29 +10,47 @@ import { Connection } from "@solana/web3.js";
 export default function Home() {
   const walletModal = useWalletModal();
   const [balance, setBalance] = useAtom(balanceAtom);
-  const { publicKey, disconnect, } = useWallet();
+  const { publicKey, disconnect, connected, } = useWallet();
   const { connection } = useConnection();
   useEffect(() => {
     if (publicKey) {
       console.log(publicKey?.toString());
+      console.log(connected);
       const connection = new Connection("https://mainnet.helius-rpc.com/?api-key=d1c3593c-f343-4a65-91ac-d0b473e62342", "confirmed");
       connection.getBalance(publicKey).then(e => {
+        console.log(e)
         setBalance(e);
       });
     }
-  }, [publicKey, connection]);
+  }, [publicKey, connection, connected]);
+  const handleDisconnect = async () => {
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    connected && await disconnect();
+  }
+  const handleConnect = () => {
+    !connected && walletModal.setVisible(true);
+  }
   return (
-    <div>
+    <div className=" flex flex-col items-center gap-5 mt-10 p-20">
       <div>
-        {balance}
+        {connected ? `Your current Balance is ${balance}` : "Please connect Wallet"}
       </div>
-      <button
-        onClick={() => {
-          walletModal.setVisible(true);
-        }}
+      <div>
+        {!connected ? <button
+          className="shadow-[inset_0_-4px_4px_#FFFFFF40] bg-gradient-to-tr from-slate-900 to-green-800 p-3 rounded-lg inset-6 text-white"
+          onClick={handleConnect}
+        >
+          Connect Wallet
+        </button> : <button onClick={handleDisconnect} className="shadow-[inset_0_-4px_4px_#FFFFFF40] bg-gradient-to-tr from-slate-900 to-red-800 p-3 rounded-lg inset-6 text-white">
+          Disconnect Wallet
+        </button>}
+
+      </div>
+      <div
       >
-        Connect Wallet
-      </button>
-    </div>
+
+      </div>
+    </div >
   );
 }

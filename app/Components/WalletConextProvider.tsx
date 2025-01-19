@@ -7,9 +7,6 @@ import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import {
     PhantomWalletAdapter,
     SolflareWalletAdapter,
-    MathWalletAdapter,
-    TrustWalletAdapter,
-    CoinbaseWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { useMemo } from "react";
 
@@ -22,16 +19,13 @@ const WalletContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         () => [
             new PhantomWalletAdapter(),
             new SolflareWalletAdapter(),
-            new MathWalletAdapter(),
-            new TrustWalletAdapter(),
-            new CoinbaseWalletAdapter(),
         ],
         []
     );
 
     return (
         <ConnectionProvider endpoint={endpoint}>
-            <WalletProvider wallets={wallets} autoConnect>
+            <WalletProvider wallets={wallets} autoConnect={true}>
                 <WalletModalProvider>
                     {children}
                 </WalletModalProvider>
