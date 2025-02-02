@@ -61,7 +61,6 @@ export default function Home() {
     const connection = new Connection("https://devnet.helius-rpc.com/?api-key=d1c3593c-f343-4a65-91ac-d0b473e62342", "confirmed");
     if (!publicKey) return;
     const provider = new AnchorProvider(connection, window.solana, {});
-
     setProvider(provider);
 
     const program = new Program(JSON.parse(JSON.stringify(idl)), "4Lge4mr7XKzuLjjk5bz2A2rZgH71tTgaQPo2T4b1tpRo", provider);
